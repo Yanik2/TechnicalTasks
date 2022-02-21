@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+                   http://www.liquibase.org/xml/ns/pro
+                   http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xse">
+    <changeSet id="1" author="Yan Zinchenko">
+        <createTable tableName="user_table">
+            <column name="id" type="int">
+                <constraints primaryKey="true" primaryKeyName="user_id_pk"/>
+            </column>
+            <column name="user_name" type="varchar(250)"/>
+        </createTable>
+        <createTable tableName="level_table">
+            <column name="id" type="int">
+                <constraints primaryKey="true" primaryKeyName="level_id_pk"/>
+            </column>
+            <column name="level_name" type="varchar(250)"/>
+        </createTable>
+        <createTable tableName="result_table">
+            <column name="id" type="int">
+                <constraints primaryKey="true" primaryKeyName="result_id_pk"/>
+            </column>
+            <column name="user_id" type="int"/>
+            <column name="level_id" type="int"/>
+            <column name="points" type="int"/>
+        </createTable>
+
+        <addAutoIncrement tableName="user_table" columnName="id" columnDataType="int" startWith="1" incrementBy="1"/>
+        <addAutoIncrement tableName="level_table" columnName="id" columnDataType="int" startWith="1" incrementBy="1"/>
+        <addAutoIncrement tableName="result_table" columnName="id" columnDataType="int" startWith="1" incrementBy="1"/>
+        <addForeignKeyConstraint baseTableName="result_table" baseColumnNames="user_id" constraintName="result_user_id_fk" referencedTableName="user_table"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="result_table" baseColumnNames="level_id" constraintName="result_level_id_fk" referencedTableName="level_table"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>
