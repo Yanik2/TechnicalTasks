@@ -14,10 +14,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/currency")
-public class MainController {
-
-    @Autowired
+public class CurrencyController {
     private CurrencyService currencyService;
+
+    public CurrencyController(CurrencyService currencyService) {
+        this.currencyService = currencyService;
+    }
 
     @GetMapping("/")
     public List<CurrencyDto> currency() {

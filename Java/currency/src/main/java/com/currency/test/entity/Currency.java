@@ -7,7 +7,7 @@ import java.time.LocalDate;
 public class Currency {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @Column(name = "ccy")
     private String ccy;
     @Column(name = "buy")
@@ -20,11 +20,11 @@ public class Currency {
     public Currency() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

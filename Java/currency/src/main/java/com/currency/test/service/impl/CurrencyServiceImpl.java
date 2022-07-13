@@ -1,11 +1,10 @@
 package com.currency.test.service.impl;
 
+import com.currency.test.dao.CurrencyDao;
 import com.currency.test.dto.CurrencyDto;
-import com.currency.test.repository.CurrencyRepository;
 import com.currency.test.entity.Currency;
 import com.currency.test.service.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,8 +15,12 @@ import java.util.stream.Collectors;
 @Service
 public class CurrencyServiceImpl implements CurrencyService {
     private static final String API_URI = "https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5";
-    @Autowired
-    private CurrencyRepository currencyRepository;
+
+    private CurrencyDao currencyDao;
+
+    public CurrencyServiceImpl(CurrencyDao currencyDao) {
+        this.currencyDao = currencyDao;
+    }
 
     @Autowired
     private RestTemplate restTemplate;
@@ -36,18 +39,18 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     public List<CurrencyDto> getCurrenciesByCcy(String ccy) {
-        return toDtoList(currencyRepository.findByCcy(ccy));
+        return toDtoList(currencyDao.findByCcy(ccy));
     }
 
     public List<CurrencyDto> getCurrenciesByDate(LocalDate date) {
-        return toDtoList(currencyRepository.findByDate(date));
+        return toDtoList(currencyDao.findByDate(date));
     }
 
     public Map<String, List<CurrencyDto>> getCurrenciesDateRange(String startDate, String endDate) {
-        return currencyRepository.findByDateRange(startDate, endDate)
+        return currencyDao.findByDateRange(startDate, endDate)
                 .stream().map(this::toDto)
                 .collect(Collectors.groupingBy(c -> c.getDate().toString(),
-                        TreeMap::new, Collectors.toList()));
+                                               TreeMap::new, Collectors.toList()));
     }
 
     private List<CurrencyDto> toDtoList(List<Currency> currs) {
