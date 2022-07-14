@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 
-@Repository
 public interface CurrencyJpaDao extends JpaRepository<Currency, Integer>, CurrencyRepository {
     List<Currency> findByCcy(String ccy);
     List<Currency> findByDate(LocalDate date);
