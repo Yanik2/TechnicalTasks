@@ -11,8 +11,11 @@ import java.util.List;
 @RequestMapping("/game")
 public class GameController {
 
-    @Autowired
     private IResultService resultService;
+
+    public GameController(IResultService resultService) {
+        this.resultService = resultService;
+    }
 
     @GetMapping("/userinfo/{userId}")
     public List<InfoDto> getUserInfo(@PathVariable Integer userId) {

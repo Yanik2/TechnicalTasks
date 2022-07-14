@@ -17,15 +17,17 @@ import java.util.stream.Collectors;
 
 @Service
 public class ResultServiceImpl implements IResultService {
-
-    @Autowired
     private ResultRepository resultRepository;
-
-    @Autowired
     private UserRepository userRepository;
-
-    @Autowired
     private LevelRepository levelRepository;
+
+    public ResultServiceImpl(ResultRepository resultRepository,
+                             UserRepository userRepository,
+                             LevelRepository levelRepository) {
+        this.resultRepository = resultRepository;
+        this.levelRepository = levelRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public List<InfoDto> getUserInfo(Integer id) {
