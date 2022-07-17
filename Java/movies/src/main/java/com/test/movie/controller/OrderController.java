@@ -14,8 +14,11 @@ import java.util.Map;
 @RequestMapping("/order")
 public class OrderController {
 
-    @Autowired
     private IOrderService orderService;
+
+    public OrderController(IOrderService orderService) {
+        this.orderService = orderService;
+    }
 
     @GetMapping
     public List<Order> findAllOrders(@RequestParam Map<String, String> params) {

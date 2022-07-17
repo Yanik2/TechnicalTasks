@@ -12,9 +12,11 @@ import java.util.Map;
 @RequestMapping("/movies")
 public class MovieController {
 
-    @Autowired
     private IMoviesService movieService;
 
+    public MovieController(IMoviesService movieService) {
+        this.movieService = movieService;
+    }
     @GetMapping
     public List<Movie> getMovies(@RequestParam Map<String, String> params) {
         return movieService.findAllMovies(params);

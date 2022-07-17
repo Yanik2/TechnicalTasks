@@ -21,9 +21,11 @@ import java.util.Map;
 @Service
 public class OrderServiceImpl implements IOrderService {
 
-    @Autowired
     private OrderRepository orderRepository;
 
+    public OrderServiceImpl(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
     @Autowired
     private MovieRepository movieRepository;
 

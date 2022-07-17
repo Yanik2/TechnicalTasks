@@ -17,8 +17,11 @@ import java.util.Map;
 
 @Service
 public class MovieServiceImpl implements IMoviesService {
-    @Autowired
     private MovieRepository movieRepository;
+
+    public MovieServiceImpl(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
+    }
 
     public static Specification<Movie> getMovies(String name, String director) {
         return (root, query, criteriaBuilder) -> {
