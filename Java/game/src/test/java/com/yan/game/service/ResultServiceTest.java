@@ -1,24 +1,7 @@
 package com.yan.game.service;
 
-import com.yan.game.dao.LevelRepository;
-import com.yan.game.dao.ResultRepository;
-import com.yan.game.dao.UserRepository;
-import com.yan.game.dto.InfoDto;
-import com.yan.game.entity.Level;
-import com.yan.game.entity.Result;
-import com.yan.game.entity.User;
-import com.yan.game.service.impl.ResultServiceImpl;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.util.List;
-import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ResultServiceTest {

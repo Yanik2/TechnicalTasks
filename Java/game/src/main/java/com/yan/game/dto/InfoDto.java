@@ -1,39 +1,39 @@
 package com.yan.game.dto;
 
 public class InfoDto {
-    private Integer userId;
-    private Integer levelId;
-    private Integer result;
+    private Long userId;
+    private Long levelId;
+    private Long result;
 
     public InfoDto() {}
 
-    public InfoDto(Integer userId, Integer levelId, Integer result) {
+    public InfoDto(Long userId, Long levelId, Long result) {
         this.levelId = levelId;
         this.result = result;
         this.userId = userId;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public Integer getLevelId() {
+    public Long getLevelId() {
         return levelId;
     }
 
-    public Integer getResult() {
+    public Long getResult() {
         return result;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public void setLevelId(Integer levelId) {
+    public void setLevelId(Long levelId) {
         this.levelId = levelId;
     }
 
-    public void setResult(Integer result) {
+    public void setResult(Long result) {
         this.result = result;
     }
 }

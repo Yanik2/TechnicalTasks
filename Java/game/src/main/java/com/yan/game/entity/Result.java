@@ -6,10 +6,10 @@ import javax.persistence.*;
 public class Result {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "points")
-    private Integer points;
+    private Long points;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -19,28 +19,28 @@ public class Result {
     @JoinColumn(name = "level_id")
     private Level level;
 
-    public Result(Integer points, User user, Level level) {
+    public Result(Long points, User user, Level level) {
         this.points = points;
         this.user = user;
         this.level = level;
     }
 
-    public Integer getPoints() {
+    public Long getPoints() {
         return points;
     }
 
-    public void setPoints(Integer points) {
+    public void setPoints(Long points) {
         this.points = points;
     }
 
     public Result() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

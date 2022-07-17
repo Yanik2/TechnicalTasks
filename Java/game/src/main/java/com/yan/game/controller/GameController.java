@@ -2,7 +2,6 @@ package com.yan.game.controller;
 
 import com.yan.game.dto.InfoDto;
 import com.yan.game.service.IResultService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,12 +17,12 @@ public class GameController {
     }
 
     @GetMapping("/userinfo/{userId}")
-    public List<InfoDto> getUserInfo(@PathVariable Integer userId) {
+    public List<InfoDto> getUserInfo(@PathVariable Long userId) {
         return resultService.getUserInfo(userId);
     }
 
     @GetMapping("/levelinfo/{levelId}")
-    public List<InfoDto> getLevelInfo(@PathVariable Integer levelId) {
+    public List<InfoDto> getLevelInfo(@PathVariable Long levelId) {
         return resultService.getLevelInfo(levelId);
     }
 

@@ -1,65 +1,93 @@
 package com.yan.game.service.impl;
 
-import com.yan.game.dao.LevelRepository;
-import com.yan.game.dao.ResultRepository;
-import com.yan.game.dao.UserRepository;
+import com.yan.game.dao.GameDao;
 import com.yan.game.dto.InfoDto;
 import com.yan.game.entity.Level;
 import com.yan.game.entity.Result;
 import com.yan.game.entity.User;
+import com.yan.game.exception.EntityAbsentException;
 import com.yan.game.service.IResultService;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Collections;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class ResultServiceImpl implements IResultService {
-    private ResultRepository resultRepository;
-    private UserRepository userRepository;
-    private LevelRepository levelRepository;
+    private static final Logger logger = LoggerFactory.getLogger(ResultServiceImpl.class);
+    private GameDao gameDao;
 
-    public ResultServiceImpl(ResultRepository resultRepository,
-                             UserRepository userRepository,
-                             LevelRepository levelRepository) {
-        this.resultRepository = resultRepository;
-        this.levelRepository = levelRepository;
-        this.userRepository = userRepository;
+    public ResultServiceImpl(GameDao gameDao) {
+        this.gameDao = gameDao;
     }
 
     @Override
-    public List<InfoDto> getUserInfo(Integer id) {
-        return userRepository.findById(id)
+    public List<InfoDto> getUserInfo(Long id) {
+        List<Result> results = gameDao.findUserById(id)
                 .map(User::getResults)
-                .get().stream()
-                .map(this::resultsToDto)
-                .sorted((o1, o2) -> o1.getResult() != o2.getResult() ? o2.getResult() - o1.getResult() : o1.getLevelId() - o2.getLevelId())
-                .collect(Collectors.toList());
+                .orElse(Collections.emptyList());
+        return getInfo(results);
     }
 
     @Override
-    public List<InfoDto> getLevelInfo(Integer id) {
-        return levelRepository.findById(id)
+    public List<InfoDto> getLevelInfo(Long id) {
+        List<Result> results = gameDao.findLevelById(id)
                 .map(Level::getResults)
-                .get().stream()
+                .orElse(Collections.emptyList());
+        return getInfo(results);
+    }
+
+    private List<InfoDto> getInfo(List<Result> results) {
+        return results.stream()
                 .map(this::resultsToDto)
-                .sorted((o1, o2) -> o1.getResult() != o2.getResult() ? o2.getResult() - o1.getResult() : o1.getUserId() - o2.getUserId())
+                .sorted((infoDto, t1) -> {
+                    if (infoDto.getResult() != t1.getResult()) {
+                        return infoDto.getResult() < t1.getResult() ? 1 : -1;
+                    } else {
+                        return infoDto.getUserId() > t1.getUserId() ? 1 : -1;
+                    }
+                })
                 .collect(Collectors.toList());
     }
 
     @Override
     public void setInfo(InfoDto infoDto) {
-        User user = userRepository.findById(infoDto.getUserId()).orElse(null);
-        Level level = levelRepository.findById(infoDto.getLevelId()).orElse(null);
+        User user = getUser(infoDto.getUserId());
+        Level level = getLevel(infoDto.getLevelId());
+        if(user == null || level == null)
+            return;
+
         Result result = new Result();
         result.setUser(user);
         result.setLevel(level);
         result.setPoints(infoDto.getResult());
-        resultRepository.save(result);
+        gameDao.saveResult(result);
     }
 
+    private User getUser(Long id) {
+        User user = null;
+        try {
+            user = gameDao.findUserById(id)
+                    .orElseThrow(() -> new EntityAbsentException("user with id: " + id));
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+        }
+        return user;
+    }
+
+    private Level getLevel(Long id) {
+        Level level = null;
+        try {
+            level = gameDao.findLevelById(id).
+                    orElseThrow(() -> new EntityAbsentException("level with id: " + id));
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+        }
+        return level;
+    }
 
     private InfoDto resultsToDto(Result result) {
         InfoDto userInfoDto = new InfoDto();

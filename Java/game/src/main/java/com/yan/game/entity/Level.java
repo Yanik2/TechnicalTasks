@@ -7,7 +7,7 @@ import java.util.List;
 public class Level {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @Column(name = "levelname")
     private String levelname;
 
@@ -17,17 +17,17 @@ public class Level {
     public Level() {
     }
 
-    public Level(Integer id, String levelname) {
+    public Level(Long id, String levelname) {
         this.id = id;
 //        this.results = results;
         this.levelname = levelname;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
