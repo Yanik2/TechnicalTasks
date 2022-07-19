@@ -2,7 +2,6 @@ package com.test.movie.controller;
 
 import com.test.movie.entity.Movie;
 import com.test.movie.service.IMoviesService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,17 +27,22 @@ public class MovieController {
     }
 
     @PostMapping
-    public Movie createMovie(@RequestBody Movie movie) {
-        return movieService.createMovie(movie);
+    public void createMovie(@RequestBody Movie movie) {
+        movieService.createMovie(movie);
     }
 
     @PutMapping
-    public Movie updateMovie(@RequestBody Movie movie) {
-        return movieService.updateMovie(movie);
+    public void updateMovie(@RequestBody Movie movie) {
+        movieService.updateMovie(movie);
     }
 
     @DeleteMapping
-    public Movie deleteMovie(@RequestBody Movie movie) {
-       return movieService.deleteMovie(movie);
+    public void deleteMovie(@RequestBody Movie movie) {
+       movieService.deleteMovie(movie);
+    }
+
+    @PostMapping("/switchJdbc")
+    public void switchJdbc(@RequestParam boolean isJdbcEnabled) {
+        movieService.switchJdbc(isJdbcEnabled);
     }
 }

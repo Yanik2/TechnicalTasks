@@ -3,8 +3,6 @@ package com.test.movie.controller;
 import com.test.movie.dto.OrderDto;
 import com.test.movie.entity.Order;
 import com.test.movie.service.IOrderService;
-import com.test.movie.service.impl.OrderServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,5 +41,10 @@ public class OrderController {
     @DeleteMapping
     public Order deleteOrder(@RequestBody OrderDto order) {
         return orderService.deleteOrder(order);
+    }
+
+    @PostMapping("/switchJdbc")
+    public void switchJdbc(@RequestParam boolean isJdbcEnabled) {
+        orderService.switchJdbc(isJdbcEnabled);
     }
 }

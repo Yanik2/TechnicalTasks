@@ -12,4 +12,5 @@ public interface IOrderService {
     Order createOrder(OrderDto orderDto);
     Order updateOrder(OrderDto orderDto);
     Order deleteOrder(OrderDto orderDto);
+    void switchJdbc(boolean isJdbcEnabled);
 }

@@ -8,7 +8,9 @@ import java.util.Map;
 public interface IMoviesService {
     Movie findById(int id);
     List<Movie> findAllMovies(Map<String, String> map);
-    Movie createMovie(Movie movie);
-    Movie updateMovie(Movie movie);
-    Movie deleteMovie(Movie movie);
+    void createMovie(Movie movie);
+    void updateMovie(Movie movie);
+    void deleteMovie(Movie movie);
+
+    void switchJdbc(boolean isJdbcEnabled);
 }
